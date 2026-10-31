@@ -289,6 +289,29 @@ A randomized stress-testing framework performs:
 
 The allocator successfully completes all stress-test phases without heap corruption.
 
+
+## Bug Fix
+### Heap Validation Return Value
+
+**Issue:**
+The cascade coalescing and final heap validation tests incorrectly interpreted the return value of `heap_validate()`.
+
+**Root Cause:**
+The validation function returns:
+- `1` when validation succeeds.
+- `-1` when validation fails.
+
+However, the calling conditions were checking for `0` as the success value, resulting in successful validation being incorrectly reported as a failure.
+
+**Changes Made:**
+- Corrected the success-condition checks from `heap_validate() == 0` to `heap_validate() == 1`.
+- Updated both the cascade coalescing test and final heap validation test.
+
+**Reason:**
+To align the caller's conditional checks with the actual return-value convention of the validation function.
+
+**Result:**
+Successful validation is now correctly identified and reported by the test suite.
 ---
 
 ## Project Structure
