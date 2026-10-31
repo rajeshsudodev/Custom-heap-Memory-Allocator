@@ -37,7 +37,8 @@ size_t Total_freed_size = 0;
 
 
 size_t align(size_t size){
-    size = (size + (ALIGNMENT - 1)) & (~ (ALIGNMENT -1));
+    // size = (size + (ALIGNMENT - 1)) & (~ (ALIGNMENT -1));
+    size = ALIGNMENT + ( size & ~(ALIGNMENT-1));
     return size;
 }
 
@@ -215,7 +216,7 @@ void *my_realloc(void *ptr, size_t resize){
     // user passes payload pointer
 
     // GUARDS
-    if(resize < 0) return NULL;
+    if(resize < 0u) return NULL;
     if(ptr == NULL) return my_malloc(resize);
     if(resize == 0){
         my_free(ptr);
@@ -248,7 +249,7 @@ void *my_realloc(void *ptr, size_t resize){
     // EXPAND IN-PLACE
     if(header->next && header->next->free){
 
-        size_t needed_size = resize - header->size;
+        // size_t needed_size = resize - header->size;
         Header_block *merged = Merge_next_if_fit(header, resize);
 
         if(merged != NULL){

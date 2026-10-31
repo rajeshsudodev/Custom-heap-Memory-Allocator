@@ -186,7 +186,7 @@ static size_t random_size() {
         my_free(d4);
         
         coalesce_free_blocks();
-        if(heap_validate() == 0) {
+        if(heap_validate()) {
             printf("PASS: Cascaded multi-block physical coalescing succeeded\n");
         } else {
             printf("FAIL: Memory layout broken during cascade clear\n");
@@ -195,7 +195,7 @@ static size_t random_size() {
         printf("\n==================================================\n");
         printf("ADVANCED SUITE COMPLETION VALIDATION\n");
         printf("==================================================\n");
-        if(heap_validate() == 0) {
+        if(heap_validate()) {
             printf("CONGRATULATIONS: Allocator is completely bulletproof!\n");
         } else {
             printf("ALERT: Structural failure discovered on final sweep.\n");
